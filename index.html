@@ -145,7 +145,7 @@
   .ctrl .val small{color:var(--dimmer);font-weight:400;font-size:.75rem;margin-left:8px}
 
   .ladder{
-    display:grid;grid-template-columns:repeat(5,1fr);gap:clamp(10px,1.6vw,20px);
+    display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(12px,2vw,24px);
     align-items:end;padding:56px clamp(24px,4vw,44px) 40px;min-height:420px;
   }
   .rung{display:flex;flex-direction:column;justify-content:flex-end;text-align:center;cursor:default}
@@ -286,7 +286,7 @@ y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);})(window, documen
     <h1>Quanto mais alto o plano, <span class="u">maior a sua parte.</span></h1>
     <p>O comissionamento por plano remunera parceiros com um percentual sobre o valor total de cada financiamento imobiliário aprovado. Simples, transparente e progressivo.</p>
     <div class="hero-stats">
-      <div class="stat rv"><b class="mono">0,075% &rarr; 0,30%</b><span>comissão sobre o valor financiado, do Free ao Enterprise</span></div>
+      <div class="stat rv"><b class="mono">0,1% &rarr; 0,50%</b><span>comissão sobre o valor financiado, do Starter ao Enterprise</span></div>
       <div class="stat rv"><b class="mono">8 bancos</b><span>instituições públicas e privadas integradas</span></div>
       <div class="stat rv"><b class="mono">D+0</b><span>pagamento por aprovação, com previsibilidade</span></div>
     </div>
@@ -345,32 +345,27 @@ y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);})(window, documen
         <div class="ctrl grow" id="ctlProps" style="display:none">
           <label>Pastas enviadas no mês</label>
           <input type="range" id="propRange" min="1" max="30" step="1" value="5">
-          <div class="val" id="propVal">5 pastas <small>R$ 500 cada</small></div>
+          <div class="val" id="propVal">5 pastas</div>
         </div>
       </div>
 
       <div class="ladder" id="ladder">
-        <div class="rung" data-pct="0.10">
-          <div class="payout mono">R$ 0</div>
-          <div class="bar"><span class="pct mint"></span></div>
-          <div class="plan">Free</div>
-        </div>
-        <div class="rung" data-pct="0.13">
+        <div class="rung" data-eff="0.001" data-pasta="65">
           <div class="payout mono">R$ 0</div>
           <div class="bar"><span class="pct mint"></span></div>
           <div class="plan">Starter</div>
         </div>
-        <div class="rung" data-pct="0.15">
+        <div class="rung" data-eff="0.0015" data-pasta="75">
           <div class="payout mono">R$ 0</div>
           <div class="bar"><span class="pct mint"></span></div>
           <div class="plan">Growth</div>
         </div>
-        <div class="rung" data-pct="0.25">
+        <div class="rung" data-eff="0.0025" data-pasta="125">
           <div class="payout mono">R$ 0</div>
           <div class="bar"><span class="pct mint"></span></div>
           <div class="plan">Business</div>
         </div>
-        <div class="rung elite" data-pct="0.40">
+        <div class="rung elite" data-eff="0.005" data-pasta="200">
           <div class="payout mono">R$ 0</div>
           <div class="bar"><span class="pct"></span></div>
           <div class="plan">Enterprise</div>
@@ -396,14 +391,13 @@ y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);})(window, documen
         <table class="rt">
           <thead><tr><th>Plano</th><th>Sobre o valor financiado</th></tr></thead>
           <tbody>
-            <tr><td>Free</td><td>0,075%</td></tr>
-            <tr><td>Starter</td><td>0,0975%</td></tr>
-            <tr><td>Growth</td><td>0,1125%</td></tr>
-            <tr><td>Business</td><td>0,1875%</td></tr>
-            <tr><td>Enterprise</td><td>0,30%</td></tr>
+            <tr><td>Starter</td><td>0,10%</td></tr>
+            <tr><td>Growth</td><td>0,15%</td></tr>
+            <tr><td>Business</td><td>0,25%</td></tr>
+            <tr><td>Enterprise</td><td>0,50%</td></tr>
           </tbody>
         </table>
-        <p style="color:var(--dim);font-size:.9rem;margin-top:18px">Exemplo: um financiamento de R$ 1,2 milhão no plano Business gera <span class="mono mint">R$ 2.250</span> de comissão.</p>
+        <p style="color:var(--dim);font-size:.9rem;margin-top:18px">Exemplo: um financiamento de R$ 1,2 milhão no plano Business gera <span class="mono mint">R$ 3.000</span> de comissão.</p>
       </div>
       <div class="bcard rv">
         <h3>Instituições Públicas</h3>
@@ -413,7 +407,6 @@ y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);})(window, documen
         <table class="rt">
           <thead><tr><th>Plano</th><th>Por pasta enviada</th></tr></thead>
           <tbody>
-            <tr><td>Free</td><td>R$ 50</td></tr>
             <tr><td>Starter</td><td>R$ 65</td></tr>
             <tr><td>Growth</td><td>R$ 75</td></tr>
             <tr><td>Business</td><td>R$ 125</td></tr>
@@ -454,27 +447,25 @@ y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);})(window, documen
 
   var fmt=function(v){return 'R$ '+Math.round(v).toLocaleString('pt-BR');};
 
-  var PRIV_RATE=0.0075, PUB_FIX=500;
-
-  function base(){
-    return inst==='privada' ? volume*PRIV_RATE : props*PUB_FIX;
-  }
-
-  function effLabel(pct){
-    if(inst==='privada'){
-      var e=(pct*PRIV_RATE*100);
-      return e.toFixed(4).replace(/0+$/,'').replace(/\.$/,'').replace('.',',')+'%';
-    }
-    return 'R$ '+Math.round(PUB_FIX*pct)+'/pasta';
-  }
+  var MAX_EFF=0.005;
 
   function update(){
-    var b=base();
     document.querySelectorAll('.rung').forEach(function(r){
-      var pct=parseFloat(r.dataset.pct);
-      r.querySelector('.payout').textContent=fmt(b*pct);
-      r.querySelector('.pct').textContent=effLabel(pct);
-      var h=MINBAR+(pct/0.40)*(MAXBAR-MINBAR);
+      var eff=parseFloat(r.dataset.eff);
+      var pasta=parseInt(r.dataset.pasta,10);
+      var payout, label, scale;
+      if(inst==='privada'){
+        payout=volume*eff;
+        label=(eff*100).toFixed(2).replace(/0$/,'').replace('.',',')+'%';
+        scale=eff/MAX_EFF;
+      } else {
+        payout=props*pasta;
+        label='R$ '+pasta+'/pasta';
+        scale=pasta/200;
+      }
+      r.querySelector('.payout').textContent=fmt(payout);
+      r.querySelector('.pct').textContent=label;
+      var h=MINBAR+scale*(MAXBAR-MINBAR);
       r.querySelector('.bar').style.setProperty('--h',Math.round(h));
     });
   }
@@ -504,7 +495,7 @@ y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);})(window, documen
   var pr=document.getElementById('propRange');
   pr.addEventListener('input',function(){
     props=parseInt(this.value,10);
-    document.getElementById('propVal').innerHTML=props+(props===1?' pasta':' pastas')+' <small>R$ 500 cada</small>';
+    document.getElementById('propVal').textContent=props+(props===1?' pasta':' pastas');
     fill(this);update();
   });
 

@@ -81,6 +81,8 @@
   .hero-stats .stat:last-child{border-right:none;padding-right:0}
   .hero-stats b{font-family:var(--mono);font-weight:600;font-size:clamp(1.3rem,2.4vw,1.8rem);display:block;font-variant-numeric:tabular-nums}
   .hero-stats span{font-size:.82rem;color:var(--dimmer)}
+  .banklogos{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px}
+  .banklogos img{width:34px;height:34px;border-radius:9px;background:#fff;padding:5px;object-fit:contain}
 
   /* ---------- SECTION SCAFFOLD ---------- */
   section{padding:clamp(64px,9vh,110px) 0}
@@ -284,8 +286,16 @@ y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);})(window, documen
     <p>O comissionamento por plano remunera parceiros com um percentual sobre o valor total de cada financiamento imobiliário aprovado. Simples, transparente e progressivo.</p>
     <div class="hero-stats">
       <div class="stat rv"><b class="mono">0,1% &rarr; 0,50%</b><span>comissão sobre o valor financiado, do Starter ao Enterprise</span></div>
-      <div class="stat rv"><b class="mono">8 bancos</b><span>instituições públicas e privadas integradas</span></div>
-      <div class="stat rv"><b class="mono">D+0</b><span>pagamento por aprovação, com previsibilidade</span></div>
+      <div class="stat rv"><div class="banklogos">
+        <img src="https://logo.clearbit.com/santander.com.br" alt="Santander" title="Santander" onerror="this.remove()">
+        <img src="https://logo.clearbit.com/bradesco.com.br" alt="Bradesco" title="Bradesco" onerror="this.remove()">
+        <img src="https://logo.clearbit.com/caixa.gov.br" alt="Caixa" title="Caixa" onerror="this.remove()">
+        <img src="https://logo.clearbit.com/bb.com.br" alt="Banco do Brasil" title="Banco do Brasil" onerror="this.remove()">
+        <img src="https://logo.clearbit.com/banrisul.com.br" alt="Banrisul" title="Banrisul" onerror="this.remove()">
+        <img src="https://logo.clearbit.com/inter.co" alt="Inter" title="Inter" onerror="this.remove()">
+        <img src="https://logo.clearbit.com/cashme.com.br" alt="CashMe" title="CashMe" onerror="this.remove()">
+      </div><span>instituições públicas e privadas integradas</span></div>
+      <div class="stat rv"><b class="mono">+Receita</b><span>para sua operação a cada financiamento aprovado</span></div>
     </div>
   </div>
 </header>
